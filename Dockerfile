@@ -2,8 +2,11 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy dependency files
+COPY pyproject.toml uv.lock* ./
+
+# Install dependencies or fallback to fastapi/uvicorn directly
+RUN pip install --no-cache-dir fastapi uvicorn requests sqlalchemy pydantic
 
 COPY . .
 
